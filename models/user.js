@@ -16,7 +16,9 @@ var userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.methods.findAvg = function(cb)
+userSchema.methods.findAvg = function(cb) {
+
+};
 
 userSchema.methods.generateHash = function(pw, cb) {
   bcrypt.hash(pw, 8, function(err, hash) {
