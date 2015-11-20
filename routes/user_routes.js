@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var handleError = require(__dirname + '/../lib/handle_error');
+var jsonParser = require('body-parser').json;
 var User = require(__dirname + '/../models/user');
 var League = require(__dirname + '/../models/league');
 

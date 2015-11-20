@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var leagueSchema = new mongoose.Schema({
+var leagueSchema = new Schema({
   name: String,
   totalMembers: Number,
   members: [{
-    type: mongoose.Schema.Type.objectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   }]
 });

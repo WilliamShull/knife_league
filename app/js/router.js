@@ -7,11 +7,14 @@ module.exports = function(app) {
       })
       .when('/signup', {
         templateUrl: '/templates/views/signin_view.html',
-        controller: 'SigninController'
+        controller: 'SignupController'
       })
       .when('/newsession', {
         templateUrl: '',
         controller: ''
       })
+      .otherwise({
+        redirectto: '/signup'
+      });
   }]);
 };
