@@ -2,19 +2,19 @@ module.exports = function(app) {
   app.config(['$routeProvider', function($route) {
     $route
       .when('/signin', {
-        templateUrl: '',
-        controller: ''
+        templateUrl: '/templates/views/signin_register_view.html',
+        controller: 'signinController'
       })
       .when('/signup', {
-        templateUrl: '/templates/views/signin_view.html',
+        templateUrl: '/templates/views/signin_register_view.html',
         controller: 'SignupController'
       })
-      .when('/newsession', {
+      .when('/home', {
         templateUrl: '',
-        controller: ''
+        controller: 'HomeController'
       })
       .otherwise({
-        redirectto: '/signup'
+        redirectto: '/signin'
       });
   }]);
 };

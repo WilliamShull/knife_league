@@ -6,7 +6,7 @@ module.exports = function(app) {
     $scope.signup = function(user) {
       $http.post('/api/signup', user)
         .then(function(res) {
-          $rootScope.user = res.body;
+          $rootScope.user = res.data;
           console.log($rootScope.user);
         }, function(res) {
           console.log(res);
