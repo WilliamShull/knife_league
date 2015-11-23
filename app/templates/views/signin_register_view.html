@@ -6,14 +6,19 @@
     <input type="submit" value="Signin">
   </form>
   <h2>Dont have an account? click the button below to get started</h2>
-  <input data-ng-click="hasAccount = false" type="button" value="Create account" />
+  <input data-ng-click="register()" type="button" value="Create account" />
+
+  <input name="testLeagueName" type="text" placeholder="test league name" data-ng-model="testLeague.leagueName" />
+  <input data-ng-click="createTestLeague(testLeague)" type="button" value="create test league" />
 </section>
 
-<section data-ng-if="!hasAccount">
+<section data-ng-if="!hasAccount" data-ng-init="getLeagueList()">
   <form data-ng-submit="signup(user)">
     <h2>signup</h2>
     <input name="username" type="text" placeholder="username" data-ng-model="user.username" />
     <input name="password" type="password" placeholder="password" data-ng-model="user.password" />
+    <input name="email" type="email" placeholder="email" data-ng-model="user.email" />
+    <input name="league" type="text" placeholder="league name" data-ng-model="user.leagueChoice" />
     <input type="submit" value="Signup">
   </form>
 </section>

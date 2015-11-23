@@ -8,6 +8,21 @@ module.exports = function(app) {
 
       $scope.hasAccount = true;
       $scope.user = {};
+      $scope.TestLeague = {};
+
+      $scope.createTestLeague = function(league) {
+        $http.post('/api/createLeague', league)
+          .then(function(res) {
+            console.log('/createLeague res data: ', res.data);
+          }, function(res) {
+            console.log('/createLeague err res: ', res);
+          });
+      };
+
+      $scope.register = function() {
+        $scope.hasAccount = false;
+        $location.path('/signup');
+      };
 
       $scope.signin = function(user) {
         $http({

@@ -3,7 +3,7 @@ module.exports = function(app) {
     $route
       .when('/signin', {
         templateUrl: '/templates/views/signin_register_view.html',
-        controller: 'signinController'
+        controller: 'SigninController'
       })
       .when('/signup', {
         templateUrl: '/templates/views/signin_register_view.html',

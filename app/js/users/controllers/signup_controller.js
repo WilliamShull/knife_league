@@ -1,5 +1,13 @@
 module.exports = function(app) {
   app.controller('SignupController', ['$http', '$scope', '$rootScope', '$location', function($http, $scope, $rootScope, $location) {
+    $scope.getLeagueList = function() {
+      $http.get('/api/leagueNames')
+        .then(function(res) {
+          console.log('/leagueNames res: ', res);
+        }, function(res) {
+          console.log('/leagueNames err: ', res);
+        })
+    };
     $scope.user = {};
     $scope.hasAccount = false;
 
@@ -11,6 +19,6 @@ module.exports = function(app) {
         }, function(res) {
           console.log(res);
         });
-    }
-  }])
-}
+    };
+  }]);
+};
