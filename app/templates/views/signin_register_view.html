@@ -1,11 +1,11 @@
 <section data-ng-if="hasAccount">
   <form data-ng-submit="signin(user)">
     <h2>Signin</h2>
-    <input name="username" type="text" placeholder="username" data-ng-model="user.username" />
-    <input name="password" type="password" placeholder="password" data-ng-model="user.password" />
+    <input name="username" type="text" placeholder="username" data-ng-model="user.username" /><br>
+    <input name="password" type="password" placeholder="password" data-ng-model="user.password" /><br>
     <input type="submit" value="Signin">
   </form>
-  <h2>Dont have an account? click the button below to get started</h2>
+  <h2>Dont have an account? click the button below to get started</h2><br>
   <input data-ng-click="register()" type="button" value="Create account" />
 
   <input name="testLeagueName" type="text" placeholder="test league name" data-ng-model="testLeague.leagueName" />
@@ -14,11 +14,16 @@
 
 <section data-ng-if="!hasAccount" data-ng-init="getLeagueList()">
   <form data-ng-submit="signup(user)">
-    <h2>signup</h2>
-    <input name="username" type="text" placeholder="username" data-ng-model="user.username" />
-    <input name="password" type="password" placeholder="password" data-ng-model="user.password" />
-    <input name="email" type="email" placeholder="email" data-ng-model="user.email" />
-    <input name="league" type="text" placeholder="league name" data-ng-model="user.leagueChoice" />
+    <h2>signup</h2><br>
+    <input name="username" type="text" placeholder="username" data-ng-model="user.username" /><br>
+    <input name="password" type="password" placeholder="password" data-ng-model="user.password" /><br>
+    <input name="email" type="email" placeholder="email" data-ng-model="user.email" /><br>
+    <ul>
+      <li data-ng-repeat="league in leagueList">
+        <input name="leagueRadio" type="radio" value="{{league.name}}" data-ng-model="user.leagueChoice" />
+        <label>{{league.name}}</label>
+      </li>
+    </ul><br>
     <input type="submit" value="Signup">
   </form>
 </section>

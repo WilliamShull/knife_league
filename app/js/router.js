@@ -14,7 +14,7 @@ module.exports = function(app) {
         controller: 'HomeController'
       })
       .otherwise({
-        redirectto: '/signin'
+        redirectTo: '/signin'
       });
   }]);
 };

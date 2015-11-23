@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 var eat = require('eat');
 
 var userSchema = new mongoose.Schema({
@@ -21,7 +21,7 @@ userSchema.methods.findAvg = function(cb) {
 };
 
 userSchema.methods.generateHash = function(pw, cb) {
-  bcrypt.hash(pw, 8, function(err, hash) {
+  bcrypt.hash(pw, 8, null, function(err, hash) {
     if (err) return cb(err);
     this.password = hash;
     cb(null, hash);
