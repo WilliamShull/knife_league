@@ -23,6 +23,7 @@ userRoutes.post('/signup', jsonParser, function(req, res) {
       if (err) return handleError.err500('generateToken', res);
       newUser.token = token;
       newUser.save(function(err, savedUser) {
+        console.log('newUser.save err: ', err);
         if (err) return handleError.err500('newUser save', res);
         League.findOneAndUpdate({ name: req.body.leagueChoice }, { $push: { members: savedUser._id }}, function(err, doc) {
           if (err) return handleError.err500('league findAndUpdate', res);
@@ -34,7 +35,7 @@ userRoutes.post('/signup', jsonParser, function(req, res) {
 });
 
 userRoutes.get('/signin', basicStrategy, function(req, res) {
-
+  handleRes.send200(req.user, res)
 });
 
 userRoutes.get('/getstats', function(req, res) {
