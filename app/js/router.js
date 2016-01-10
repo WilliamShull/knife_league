@@ -10,7 +10,7 @@ module.exports = function(app) {
         controller: 'SignupController'
       })
       .when('/home', {
-        templateUrl: '',
+        templateUrl: '/templates/views/home_view.html',
         controller: 'HomeController'
       })
       .otherwise({
