@@ -21,10 +21,12 @@
     "webpack-stream": "^2.1.1"
   },
   "dependencies": {
-    "bcrypt": "^0.8.5",
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.1",
     "eat": "^0.1.1",
     "express": "^4.13.3",
+    "jwt-simple": "^0.4.0",
+    "moment": "^2.11.1",
     "mongoose": "^4.2.5",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",

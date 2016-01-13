@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var eat = require('eat');
 
 var userSchema = new mongoose.Schema({
@@ -16,24 +16,19 @@ var userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.methods.findAvg = function(cb) {
+userSchema.pre('save', function(next) {
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(this.password, salt, function(err, hash) {
+      user.password = hash;
+      next();
+    });
+  });
+});
 
-};
-
-userSchema.methods.generateHash = function(pw, cb) {
-  bcrypt.hash(pw, 8, function(err, hash) {
-    if (err) return cb(err);
-    this.password = hash;
-    cb(null, hash);
-  }.bind(this));
-};
-
-userSchema.methods.compareHash = function(pw, cb) {
-  bcrypt.compare(pw, this.password, cb);
-};
-
-userSchema.methods.generateToken = function(cb) {
-  eat.encode({ id: this._id, timeStamp: Date.now() }, process.env.APP_SECRET, cb);
+userSchema.methods.comparePasswords = function(password, done) {
+  bcrypt.compare(password, this.password, function(err, isMatch) {
+    done(err, isMatch);
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);

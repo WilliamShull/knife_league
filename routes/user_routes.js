@@ -11,11 +11,37 @@ var League = require(__dirname + '/../models/league');
 
 var userRoutes = module.exports = exports = express.Router();
 
+function checkAuthentication(req, res, next) {
+  if (!req.headers.authorization) return res.status(401);
+
+  var token = req.headers.authorization.split(' ')[1];
+  var payload = null;
+
+  try {
+    payload = jwt.decode(token, process.env.TOKEN_SECRET);
+  }
+  catch (err) {
+    return res.status(401).send({ msg: err });
+  }
+  req.user = payload.sub;
+  next();
+}
+
+function createJWT(user) {
+  var payload = {
+    sub: user._id,
+    iat: moment().unix(),
+    exp: moment().add(14, 'days').unix()
+  };
+  return jwt.encode(payload, process.env.TOKEN_SECRET);
+}
+
 userRoutes.post('/signup', jsonParser, function(req, res) {
   var newUser = new User();
   newUser.username = req.body.username;
   newUser.email = req.body.email;
   newUser.league = req.body.leagueChoice;
+
   newUser.generateHash(req.body.password, function(err, hash) {
     if (err) return handleError.err500('generateHash', res);
     newUser.password = hash;
