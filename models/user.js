@@ -3,9 +3,8 @@ var bcrypt = require('bcryptjs');
 
 var userSchema = new mongoose.Schema({
   username: { type: String, require: true, unique: true },
-  password: String,
+  password: { type: String, select: false},
   email: { type: String, unique: true },
-  token: String,
   league: String,
   stats: {
     hits: Number,
@@ -18,7 +17,7 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(this.password, salt, function(err, hash) {
-      user.password = hash;
+      this.password = hash;
       next();
     });
   });

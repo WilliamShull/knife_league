@@ -6,7 +6,7 @@ module.exports = function(app) {
     $scope.getLeagueList = function() {
       $http.get('/api/leagueNames')
         .then(function(res) {
-          $scope.leagueList = res.data.msg;
+          $scope.leagueList = res.data.leagues;
         }, function(res) {
           console.log('/leagueNames err: ', res);
         })

@@ -1,10 +1,7 @@
- var express = require('express');
+var express = require('express');
 var mongoose = require('mongoose');
-var passport = require('passport');
-var basicStrategy = require(__dirname + '/../lib/basic_strategy');
-var bearerStrategy = require(__dirname + '/../lib/bearer_strategy');
-var handleRes = require(__dirname + '/../lib/handle_response');
-var handleError = require(__dirname + '/../lib/handle_error');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 var jsonParser = require('body-parser').json();
 var User = require(__dirname + '/../models/user');
 var League = require(__dirname + '/../models/league');
@@ -31,47 +28,43 @@ function createJWT(user) {
   var payload = {
     sub: user._id,
     iat: moment().unix(),
-    exp: moment().add(14, 'days').unix()
+    exp: moment().add(2, 'days').unix()
   };
   return jwt.encode(payload, process.env.TOKEN_SECRET);
 }
 
 userRoutes.post('/signup', jsonParser, function(req, res) {
-  var newUser = new User();
-  newUser.username = req.body.username;
-  newUser.email = req.body.email;
-  newUser.league = req.body.leagueChoice;
+  User.findOne({ email: req.body.email }, function(err, existingUser) {
+    if (existingUser) return res.status(409).send({ msg: 'Account already exists'});
 
-  newUser.generateHash(req.body.password, function(err, hash) {
-    if (err) return handleError.err500('generateHash', res);
-    newUser.password = hash;
-    newUser.generateToken(function(err, token) {
-      if (err) return handleError.err500('generateToken', res);
-      newUser.token = token;
-      newUser.save(function(err, savedUser) {
-        console.log('newUser.save err: ', err);
-        if (err) return handleError.err500('newUser save', res);
-        League.findOneAndUpdate({ name: req.body.leagueChoice }, { $push: { members: savedUser._id }}, function(err, doc) {
-          if (err) return handleError.err500('league findAndUpdate', res);
-          return handleRes.send201(savedUser, res);
-        });
-      });
+    var user = new User({
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      league: req.body.league
+    });
+    user.save(function(err, result) {
+      if (err) return res.status(500).send({ msg: err});
+      res.status(201).send({ token: result });
     });
   });
 });
 
-userRoutes.get('/signin', basicStrategy, function(req, res) {
-  handleRes.send200(req.user, res)
-});
-
-userRoutes.get('/getstats', function(req, res) {
-
+userRoutes.get('/signin', checkAuthentication, function(req, res) {
+  User.findOne({ email: req.body.email }, '+password', function(err, user) {
+    if (!user) return res.status(401).send({ msg: 'invalid username or password'});
+    if (err) return res.status(500).send({ msg: 'Server Error'});
+    user.comparePassword(req.body.password, function(err, result) {
+      if (!user) return res.status(401).send({ msg: 'invalid username or password'});
+      res.send({ token: createJWT(user) });
+    });
+  });
 });
 
 userRoutes.get('/leagueNames', function(req, res) {
   League.find({}, 'name', function(err, docs) {
-    if (err) return handleError.err500(err, res);
-    return handleRes.send200(docs, res);
+    if (err) return res.status(500).send({ msg: 'Server Error'});
+    res.send({ leagues: docs});
   });
 });
 
@@ -84,8 +77,4 @@ userRoutes.post('/createLeague', jsonParser, function(req, res) {
     if (err) return handleError.err500(err, res);
     return handleRes.send201(league, res);
   });
-});
-
-userRoutes.get('/errRoute', function(req, res) {
-  return handleError.err401(null, res);
 });
