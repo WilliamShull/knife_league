@@ -1,20 +1,27 @@
 module.exports = function(app) {
-  app.config(['$routeProvider', function($route) {
-    $route
-      .when('/signin', {
-        templateUrl: '/templates/views/signin_register_view.html',
-        controller: 'SigninController'
-      })
-      .when('/signup', {
-        templateUrl: '/templates/views/signin_register_view.html',
-        controller: 'SignupController'
-      })
-      .when('/home', {
-        templateUrl: '/templates/views/home_view.html',
+  app.config(['$stateProvider', '$urlRouteProvider', function($stateProvider, $urlRouteProvider) {
+    $stateProvider
+      .state('home', {
+        url: '/',
+        templateUrl: '/templates/views/home.html',
         controller: 'HomeController'
       })
-      .otherwise({
-        redirectTo: '/signin'
+      .state('login', {
+        url: '/login',
+        templateUrl: '/templates/views/login.html',
+        controller: 'LoginController'
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: '/templates/views/register.html',
+        controller: 'RegisterController'
+      })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: '/templates/views/profile.html',
+        controller: '/ProfileController'
       });
+
+    $urlRouteProvider.otherwise('/');
   }]);
 };

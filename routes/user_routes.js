@@ -61,6 +61,21 @@ userRoutes.get('/signin', checkAuthentication, function(req, res) {
   });
 });
 
+userRoutes.get('/user', checkAuthentication, function(req, res) {
+  User.findOne({ _id: req.user }, function(err, user) {
+    if (!user) return res.status(401).send({ msg: 'User not found'});
+    if (err) return res.status(500).send({ msg: 'Server Error'});
+    res.send(user);    
+  });
+});
+
+userRoutes.put('/user', checkAuthentication, function(req, res) {
+  User.findOne({ _id: req.user }, function(err, res) {
+    if (!user) return res.status(401).send({ msg: 'User not found' });
+    //update and save user document to DB, send res
+  });
+});
+
 userRoutes.get('/leagueNames', function(req, res) {
   League.find({}, 'name', function(err, docs) {
     if (err) return res.status(500).send({ msg: 'Server Error'});
