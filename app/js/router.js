@@ -14,7 +14,12 @@ module.exports = function(app) {
       .state('register', {
         url: '/register',
         templateUrl: '/templates/views/register.html',
-        controller: 'RegisterController'
+        controller: 'RegisterController',
+        resolve: {
+          leagueList: function(LeagueService) {
+            return LeagueService.leagueList();
+          }
+        }
       })
       .state('profile', {
         url: '/profile',

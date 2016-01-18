@@ -15,12 +15,16 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', function(next) {
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(this.password, salt, function(err, hash) {
-      this.password = hash;
-      next();
+  if (this.isModified('password')) {
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(this.password, salt, function(err, hash) {
+        this.password = hash;
+        next();
+      });
     });
-  });
+  } else {
+    next();
+  }
 });
 
 userSchema.methods.comparePasswords = function(password, done) {

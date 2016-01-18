@@ -1,5 +1,6 @@
 module.exports = function(app) {
-	app.controller('RegisterController', ['$scope', '$location', '$auth', function($scope, $location, $auth) {
+	app.controller('RegisterController', ['$scope', 'leagueList' '$location', '$auth', function($scope, leagueList, $location, $auth) {
+		$scope.leagueList = leagueList;
 		$scope.signup = function() {
 			$auth.signup(user)
 				.then(function(res) {

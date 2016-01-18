@@ -79,7 +79,7 @@ userRoutes.put('/user', checkAuthentication, function(req, res) {
 userRoutes.get('/leagueNames', function(req, res) {
   League.find({}, 'name', function(err, docs) {
     if (err) return res.status(500).send({ msg: 'Server Error'});
-    res.send({ leagues: docs});
+    res.send(docs);
   });
 });
 
