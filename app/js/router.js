@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.config(['$stateProvider', '$urlRouteProvider', function($stateProvider, $urlRouteProvider) {
+  app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -24,9 +24,14 @@ module.exports = function(app) {
       .state('profile', {
         url: '/profile',
         templateUrl: '/templates/views/profile.html',
-        controller: '/ProfileController'
+        controller: 'ProfileController',
+        resolve: {
+          userProfile: function(ProfileService) {
+            return ProfileService.getUser();
+          }
+        }
       });
 
-    $urlRouteProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
   }]);
 };

@@ -1,9 +1,11 @@
 module.exports = function(app) {
-	app.controller('ProfileController', ['$scope', '$location', '$auth', 'ProfileService', 
+	app.controller('ProfileController', ['$scope', 'userProfile', '$location', '$auth', 'ProfileService', 
 		function($scope, $location, $auth, ProfileService) {
+			$scope.user = userProfile.data;
 			$scope.getProfile = function() {
 				ProfileService.getUser()
 					.then(function(res) {
+						console.log('getUser res:', res.data);
 						$scope.user = res.data;
 					})
 					.catch(function(res) {

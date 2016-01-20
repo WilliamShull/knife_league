@@ -2,7 +2,14 @@
 	<div class="form-container">
 		<p>Create an account</p>
 		<form ng-submit="signup()" name="registerForm">
-			<input type="text" name="username" id="username" ng-model="user.username">
+			<input type="text" name="username" id="username" placeholder="username" ng-model="user.username" required autofocus><br>
+			<input type="text" name="email" id="email" placeholder="email" ng-model="user.email" required><br>
+			<input type="password" name="password" id="password" placeholder="password" ng-model="user.password" required><br>
+			<li ng-repeat="league in leagueList">
+				<input type="radio" name="leagueRadio" id="leagueRadio" value="{{league.name}}" ng-model="user.league" required>
+				<span>{{league.name}}</span>
+			</li>
+			<button type="submit" ng-disable="registerForm.$invalid">Create Account</button>
 		</form>
 	</div>
 </section>

@@ -9,6 +9,7 @@ var League = require(__dirname + '/../models/league');
 var userRoutes = module.exports = exports = express.Router();
 
 function checkAuthentication(req, res, next) {
+  console.log(req.headers);
   if (!req.headers.authorization) return res.status(401);
 
   var token = req.headers.authorization.split(' ')[1];
@@ -76,10 +77,17 @@ userRoutes.put('/user', checkAuthentication, function(req, res) {
   });
 });
 
-userRoutes.get('/leagueNames', function(req, res) {
+userRoutes.get('/leagueList', function(req, res) {
   League.find({}, 'name', function(err, docs) {
     if (err) return res.status(500).send({ msg: 'Server Error'});
     res.send(docs);
+  });
+});
+
+userRoutes.get('/league/:name', function(req, res) {
+  League.findOne({ name: req.params.name }, function(err, league) {
+    if (err) return res.status(500).send({ msg: 'Server Error'});
+    res.send(league);
   });
 });
 

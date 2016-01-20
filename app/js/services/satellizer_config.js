@@ -1,7 +1,7 @@
 module.exports = function(app) {
-	app.config(function($authProvider) {
-		$authProvider.loginurl = '/api/signin';
-		$authProvider.signupurl = '/api/signup';
-		$authProvider.storageType = 'sessionStorage';
-	});
+	app.config(['$authProvider', function($authProvider) {
+			$authProvider.loginUrl = '/api/signin';
+			$authProvider.signupUrl = '/api/signup';
+			$authProvider.storageType = 'sessionStorage';
+		}]);
 };
