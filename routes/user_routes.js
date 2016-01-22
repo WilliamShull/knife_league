@@ -9,8 +9,7 @@ var League = require(__dirname + '/../models/league');
 var userRoutes = module.exports = exports = express.Router();
 
 function checkAuthentication(req, res, next) {
-  console.log(req.headers);
-  if (!req.headers.authorization) return res.status(401);
+  if (!req.headers.authorization) return res.status(401).send({ msg: ''});
 
   var token = req.headers.authorization.split(' ')[1];
   var payload = null;
@@ -42,16 +41,27 @@ userRoutes.post('/signup', jsonParser, function(req, res) {
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,
-      league: req.body.league
+      league: req.body.league,
+      stats: {
+        hits: 0,
+        demerits: 0,
+        throws: 0,
+        hitRate: 0
+      }
     });
-    user.save(function(err, result) {
+    user.save(function(err, savedDoc) {
       if (err) return res.status(500).send({ msg: err});
-      res.status(201).send({ token: result });
+      League.findOneAndUpdate({ name: savedDoc.league }, { $push: { members: savedDoc._id }}, function(err, doc) {
+        if (err) return res.status(500).send({ msg: err});
+        console.log(savedDoc);
+        console.log(doc);
+        res.status(201).send({ token: createJWT(savedDoc) });
+      });
     });
   });
 });
 
-userRoutes.get('/signin', checkAuthentication, function(req, res) {
+userRoutes.post('/signin', jsonParser, function(req, res) {
   User.findOne({ email: req.body.email }, '+password', function(err, user) {
     if (!user) return res.status(401).send({ msg: 'invalid username or password'});
     if (err) return res.status(500).send({ msg: 'Server Error'});
@@ -63,6 +73,7 @@ userRoutes.get('/signin', checkAuthentication, function(req, res) {
 });
 
 userRoutes.get('/user', checkAuthentication, function(req, res) {
+  console.log('GET /user req.user: ', req.user);
   User.findOne({ _id: req.user }, function(err, user) {
     if (!user) return res.status(401).send({ msg: 'User not found'});
     if (err) return res.status(500).send({ msg: 'Server Error'});

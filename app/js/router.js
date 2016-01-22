@@ -30,6 +30,20 @@ module.exports = function(app) {
             return ProfileService.getUser();
           }
         }
+      })
+      .state('leagueRoster', {
+        url: '/templates/views/league_roster.html',
+        controller: 'LeagueRosterController'
+      })
+      .state('newSession', {
+        url: '/new-session',
+        templateUrl: '/templates/views/new_session.html',
+        controller: 'NewSessionController',
+        resolve: {
+          leagueMemberList: function(LeagueService) {
+            return LeagueService.getLeague()
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');

@@ -1,6 +1,7 @@
 module.exports = function(app) {
 	app.controller('ProfileController', ['$scope', 'userProfile', '$location', '$auth', 'ProfileService', 
-		function($scope, $location, $auth, ProfileService) {
+		function($scope, userProfile, $location, $auth, ProfileService) {
+			console.log(arguments);
 			$scope.user = userProfile.data;
 			$scope.getProfile = function() {
 				ProfileService.getUser()

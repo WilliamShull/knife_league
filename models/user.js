@@ -20,14 +20,14 @@ userSchema.pre('save', function(next) {
       bcrypt.hash(this.password, salt, function(err, hash) {
         this.password = hash;
         next();
-      });
-    });
+      }.bind(this));
+    }.bind(this));
   } else {
     next();
   }
 });
 
-userSchema.methods.comparePasswords = function(password, done) {
+userSchema.methods.comparePassword = function(password, done) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     done(err, isMatch);
   });
