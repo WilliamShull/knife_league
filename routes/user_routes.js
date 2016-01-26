@@ -77,7 +77,7 @@ userRoutes.get('/user', checkAuthentication, function(req, res) {
   User.findOne({ _id: req.user }, function(err, user) {
     if (!user) return res.status(401).send({ msg: 'User not found'});
     if (err) return res.status(500).send({ msg: 'Server Error'});
-    res.send(user);    
+    res.send(user);
   });
 });
 
@@ -98,7 +98,10 @@ userRoutes.get('/leagueList', function(req, res) {
 userRoutes.get('/league/:name', function(req, res) {
   League.findOne({ name: req.params.name }, function(err, league) {
     if (err) return res.status(500).send({ msg: 'Server Error'});
-    res.send(league);
+    league.populate('members', function(err, memberList) {
+      if (err) return res.status(500).send({ msg: err});
+      res.send(league);
+    });
   });
 });
 

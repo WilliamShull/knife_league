@@ -32,16 +32,17 @@ module.exports = function(app) {
         }
       })
       .state('leagueRoster', {
-        url: '/templates/views/league_roster.html',
+        url: '/league-roster',
+        templateUrl: '/templates/views/league_roster.html',
         controller: 'LeagueRosterController'
       })
       .state('newSession', {
-        url: '/new-session',
+        url: '/new-session/:league',
         templateUrl: '/templates/views/new_session.html',
         controller: 'NewSessionController',
         resolve: {
-          leagueMemberList: function(LeagueService) {
-            return LeagueService.getLeague()
+          leagueMemberList: function(LeagueService, $stateParams) {
+            return LeagueService.getLeague($stateParams.league);
           }
         }
       });
