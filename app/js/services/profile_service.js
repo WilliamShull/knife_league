@@ -7,6 +7,6 @@ module.exports = function(app) {
 			updateUser: function(newInfo) {
 				return $http.put('/api/user');
 			}
-		}
-	}])
-}
+		};
+	}]);
+};

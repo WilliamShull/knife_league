@@ -45,6 +45,11 @@ module.exports = function(app) {
             return LeagueService.getLeague($stateParams.league);
           }
         }
+      })
+      .state('session', {
+        url: '/session',
+        templateUrl: '/templates/views/session.html',
+        controller: 'SessionController'
       });
 
     $urlRouterProvider.otherwise('/');

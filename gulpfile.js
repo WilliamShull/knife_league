@@ -17,5 +17,9 @@ gulp.task('staticfiles:dev', function() {
     .pipe(gulp.dest('build/'));
 });
 
+gulp.task('watch', function() {
+	gulp.watch('./app/**/*html', ['staticfiles:dev']);
+});
+
 gulp.task('build:dev', ['staticfiles:dev', 'webpack:dev']);
-gulp.task('default', ['build:dev']);
+gulp.task('default', ['build:dev', 'watch']);
