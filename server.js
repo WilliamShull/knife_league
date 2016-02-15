@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/knife_league');
-process.env.APP_SECRET = process.env.APP_SECRET || 'tortilla';
+process.env.TOKEN_SECRET = process.env.TOKEN_SECRET || 'tortilla';
 
 app.use(express.static(__dirname + '/build'));
 

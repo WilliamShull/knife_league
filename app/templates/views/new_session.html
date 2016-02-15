@@ -1,0 +1,21 @@
+<section class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Select all of the members that will be playing in this session</h3>		
+				</div>
+				<div class="panel-body">
+					<ul>
+						<li ng-repeat="member in leagueData.members">
+							<input type="checkbox" value="member._id">
+							<span>{{member.username}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>			
+			<a href="/#/session" class="btn btn-primary btn-block">Start Session</a>
+
+		</div>
+  </div>
+</section>

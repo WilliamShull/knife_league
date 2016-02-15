@@ -1,0 +1,11 @@
+<section class="container">
+	<div class="form-container">
+		<p>Log in to an existing account</p>
+		<form ng-submit="login()" name="loginForm">
+			<input type="text" name="username" id="username" placeholder="username" ng-model="user.username" required autofocus>
+			<input type="email" name="email" id="email" placeholder="email" ng-model="user.email" required>
+			<input type="password" name="password" id="password" placeholder="password" ng-model="user.password" required>
+			<button type="submit" ng-disable="loginForm.$invalid">Log in</button>
+		</form>
+	</div>
+</section>
