@@ -7,6 +7,10 @@ var leagueSchema = new Schema({
   members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  sessions: [{
+  	type: Schema.Types.ObjectId,
+  	ref: 'Session'
   }]
 });
 

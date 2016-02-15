@@ -5,6 +5,7 @@ module.exports = function(app) {
 				return $http.get('/api/session');
 			},
 			createSession: function(data) {
+				//send _id of selected players and the league for session creation
 				return $http.post('/api/session', data);
 			},
 			updateSession: function(data) {

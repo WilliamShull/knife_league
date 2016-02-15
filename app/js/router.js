@@ -6,11 +6,13 @@ module.exports = function(app) {
         templateUrl: '/templates/views/home.html',
         controller: 'HomeController'
       })
+
       .state('login', {
         url: '/login',
         templateUrl: '/templates/views/login.html',
         controller: 'LoginController'
       })
+
       .state('register', {
         url: '/register',
         templateUrl: '/templates/views/register.html',
@@ -21,6 +23,18 @@ module.exports = function(app) {
           }
         }
       })
+
+      .state('logout', {
+        url: '/logout',
+        template: null,
+        controller: function($location, $auth) { 
+          $auth.logout()
+            .then(function() {
+              $location.path('/');
+            });
+        }
+      })
+
       .state('profile', {
         url: '/profile',
         templateUrl: '/templates/views/profile.html',
@@ -31,11 +45,13 @@ module.exports = function(app) {
           }
         }
       })
+
       .state('leagueRoster', {
         url: '/league-roster',
         templateUrl: '/templates/views/league_roster.html',
         controller: 'LeagueRosterController'
       })
+
       .state('newSession', {
         url: '/new-session/:league',
         templateUrl: '/templates/views/new_session.html',
@@ -46,6 +62,7 @@ module.exports = function(app) {
           }
         }
       })
+
       .state('session', {
         url: '/session',
         templateUrl: '/templates/views/session.html',
