@@ -66,7 +66,8 @@ module.exports = function(app) {
       .state('session', {
         url: '/session',
         templateUrl: '/templates/views/session.html',
-        controller: 'SessionController'
+        controller: 'SessionController',
+        params: { gameDocs: null }
       });
 
     $urlRouterProvider.otherwise('/');

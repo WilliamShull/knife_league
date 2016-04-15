@@ -7,9 +7,9 @@ process.env.TOKEN_SECRET = process.env.TOKEN_SECRET || 'tortilla';
 app.use(express.static(__dirname + '/build'));
 
 var userRoutes = require(__dirname + '/routes/user_routes');
-// var gameRoutes = require(__dirname + 'routes/game_routes');
+var gameRoutes = require(__dirname + '/routes/game_routes');
 app.use('/api', userRoutes);
-// app.use('/api', gameRoutes);
+app.use('/api', gameRoutes);
 
 var port = process.env.PORT || 3000;
 

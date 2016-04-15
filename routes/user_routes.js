@@ -3,26 +3,11 @@ var mongoose = require('mongoose');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var jsonParser = require('body-parser').json();
+var checkAuthentication = require(__dirname + '/../lib/checkAuthentication');
 var User = require(__dirname + '/../models/user');
 var League = require(__dirname + '/../models/league');
 
 var userRoutes = module.exports = exports = express.Router();
-
-function checkAuthentication(req, res, next) {
-  if (!req.headers.authorization) return res.status(401).send({ msg: ''});
-
-  var token = req.headers.authorization.split(' ')[1];
-  var payload = null;
-
-  try {
-    payload = jwt.decode(token, process.env.TOKEN_SECRET);
-  }
-  catch (err) {
-    return res.status(401).send({ msg: err });
-  }
-  req.user = payload.sub;
-  next();
-}
 
 function createJWT(user) {
   var payload = {
@@ -35,7 +20,7 @@ function createJWT(user) {
 
 userRoutes.post('/signup', jsonParser, function(req, res) {
   User.findOne({ email: req.body.email }, function(err, existingUser) {
-    if (existingUser) return res.status(409).send({ msg: 'Account already exists'});
+    if (existingUser) return res.status(409).send({ msg: 'Account already exists' });
 
     var user = new User({
       username: req.body.username,
@@ -50,9 +35,9 @@ userRoutes.post('/signup', jsonParser, function(req, res) {
       }
     });
     user.save(function(err, savedDoc) {
-      if (err) return res.status(500).send({ msg: err});
+      if (err) return res.status(500).send({ msg: err });
       League.findOneAndUpdate({ name: savedDoc.league }, { $push: { members: savedDoc._id }}, function(err, doc) {
-        if (err) return res.status(500).send({ msg: err});
+        if (err) return res.status(500).send({ msg: err });
         console.log(savedDoc);
         console.log(doc);
         res.status(201).send({ token: createJWT(savedDoc) });
@@ -63,10 +48,10 @@ userRoutes.post('/signup', jsonParser, function(req, res) {
 
 userRoutes.post('/signin', jsonParser, function(req, res) {
   User.findOne({ email: req.body.email }, '+password', function(err, user) {
-    if (!user) return res.status(401).send({ msg: 'invalid username or password'});
-    if (err) return res.status(500).send({ msg: 'Server Error'});
+    if (!user) return res.status(401).send({ msg: 'invalid username or password' });
+    if (err) return res.status(500).send({ msg: 'Server Error' });
     user.comparePassword(req.body.password, function(err, result) {
-      if (!user) return res.status(401).send({ msg: 'invalid username or password'});
+      if (!user) return res.status(401).send({ msg: 'invalid username or password' });
       res.send({ token: createJWT(user) });
     });
   });
@@ -75,8 +60,8 @@ userRoutes.post('/signin', jsonParser, function(req, res) {
 userRoutes.get('/user', checkAuthentication, function(req, res) {
   console.log('GET /user req.user: ', req.user);
   User.findOne({ _id: req.user }, function(err, user) {
-    if (!user) return res.status(401).send({ msg: 'User not found'});
-    if (err) return res.status(500).send({ msg: 'Server Error'});
+    if (!user) return res.status(401).send({ msg: 'User not found' });
+    if (err) return res.status(500).send({ msg: 'Server Error' });
     res.send(user);
   });
 });
@@ -90,16 +75,16 @@ userRoutes.put('/user', checkAuthentication, function(req, res) {
 
 userRoutes.get('/leagueList', function(req, res) {
   League.find({}, 'name', function(err, docs) {
-    if (err) return res.status(500).send({ msg: 'Server Error'});
+    if (err) return res.status(500).send({ msg: 'Server Error' });
     res.send(docs);
   });
 });
 
 userRoutes.get('/league/:name', function(req, res) {
   League.findOne({ name: req.params.name }, function(err, league) {
-    if (err) return res.status(500).send({ msg: 'Server Error'});
+    if (err) return res.status(500).send({ msg: 'Server Error' });
     league.populate('members', function(err, memberList) {
-      if (err) return res.status(500).send({ msg: err});
+      if (err) return res.status(500).send({ msg: err });
       res.send(league);
     });
   });
