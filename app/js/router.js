@@ -27,7 +27,7 @@ module.exports = function(app) {
       .state('logout', {
         url: '/logout',
         template: null,
-        controller: function($location, $auth) { 
+        controller: function($location, $auth) {
           $auth.logout()
             .then(function() {
               $location.path('/');
@@ -67,8 +67,11 @@ module.exports = function(app) {
         url: '/session',
         templateUrl: '/templates/views/session.html',
         controller: 'SessionController',
-        params: { gameDocs: null }
-      });
+        params: { obj: null }
+      })
+      .state('session.details', {
+        templateUrl: '/templates/views/session.details.html'
+      })
 
     $urlRouterProvider.otherwise('/');
   }]);

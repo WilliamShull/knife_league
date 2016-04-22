@@ -8,10 +8,10 @@ module.exports = function(app) {
         players: []
       };
 
-      $scope.toggleSelection = function(player) {
-        var playerIndex = $scope.gameData.players.indexOf(player);
+      $scope.toggleSelection = function(playerId, username) {
+        var playerIndex = $scope.gameData.players.indexOf(playerId);
         if (playerIndex === -1) {
-          $scope.gameData.players.push(player);
+          $scope.gameData.players.push({ playerId: playerId, username: username });
         } else {
           $scope.gameData.players.splice(playerIndex, 1);
         }
@@ -21,7 +21,7 @@ module.exports = function(app) {
         SessionService.createSession($scope.gameData)
           .then(function(res) {
             console.log('createSession res: ', res.data);
-            $state.go('session', { gameDocs: res.data });
+            $state.go('session', { obj: res.data });
           })
           .catch(function(res) {
             console.log(res.data);

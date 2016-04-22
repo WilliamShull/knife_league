@@ -9,7 +9,7 @@
 					<form ng-submit="createSession()" name="memberListForm">
 						<ul>
 							<li ng-repeat="member in leagueData.members">
-								<input type="checkbox" value="member._id" ng-click="toggleSelection(member._id)">
+								<input type="checkbox" value="member._id" ng-click="toggleSelection(member._id, member.username)">
 								<span>{{member.username}}</span>
 							</li>
 						</ul>

@@ -1,32 +1,40 @@
-<section class="container-fluid">
+<section class="container">
 	<article class="row">
+
+		<!-- Player selection Panel -->
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Panel 1</h3>
+					<h3 class="panel-title">Players</h3>
 				</div>
 				<div class="panel-body">
-					<ul>
-						<li>Player panel</li>
+					<ul ng-repeat="player in gameDocs">
+						<li>{{player.username}}</li>
 					</ul>
 				</div>
 			</div>
 		</div>
+
+		<!-- Player Update Panel -->
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Panel 2</h3>
+					<h3 class="panel-title">Update score</h3>
 				</div>
 				<div class="panel-body">
 					<p>Panel 2 body text</p>
 				</div>
 			</div>
+
+			<!-- Player Detail Panel -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Panel 3</h3>
+					<h3 class="panel-title">Player details</h3>
 				</div>
 				<div class="panel-body">
-					<p>Panel 3 body text</p>
+					<div class="ui-view">
+						<p>Panel 3 body text</p>
+					</div>
 				</div>
 			</div>
 		</div>

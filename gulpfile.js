@@ -22,4 +22,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build:dev', ['staticfiles:dev', 'webpack:dev']);
-gulp.task('default', ['build:dev', 'watch']);
+gulp.task('default', ['build:dev']);

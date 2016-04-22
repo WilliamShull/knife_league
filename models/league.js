@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 var leagueSchema = new Schema({
   name: String,
-  totalMembers: Number,
   members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'

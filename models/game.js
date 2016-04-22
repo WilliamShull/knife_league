@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var gameSchema = new mongoose.Schema({
-  player: String,
+  playerId: String,
+  username: String,
   league: String,
-  date: Date,
   demerits: { type: Number, default: 0 },
   throws: { type: Number, default: 0 },
   cards: {
@@ -15,6 +15,8 @@ var gameSchema = new mongoose.Schema({
     six: { type: Number, default: 0 },
     bullseye: { type: Number, default: 0}
   }
-});
+},
+{ timestamps: true }
+);
 
 module.exports = mongoose.model('Game', gameSchema);
